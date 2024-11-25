@@ -8,7 +8,7 @@ export default function Categories() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch categories on page load
+
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -22,22 +22,22 @@ export default function Categories() {
     fetchCategories();
   }, []);
 
-  // Handle category form submission
+ 
   async function handleAddCategory(ev) {
     ev.preventDefault();
 
     if (!newCategoryName.trim()) {
-      setError("Category name cannot be empty.");
+      setError("Gatunek name cannot be empty.");
       return;
     }
 
     setLoading(true);
     try {
-      // Make POST request to create a new category
+      
       const response = await axios.post("/api/categories", { name: newCategoryName });
-      setCategories((prev) => [...prev, response.data]); // Add new category to the list
-      setNewCategoryName(""); // Clear the input
-      setError(""); // Clear any previous errors
+      setCategories((prev) => [...prev, response.data]); 
+      setNewCategoryName(""); 
+      setError(""); 
     } catch (err) {
       setError("Failed to create category.");
     } finally {
@@ -47,43 +47,49 @@ export default function Categories() {
 
   return (
     <Layout>
-      <h1>Kategorie</h1>
-      
+      <h1 className="text-3xl font-semibold mb-6">Gatunki</h1>
+
       {/* Error message */}
       {error && <div className="text-red-500 mb-4">{error}</div>}
-      
+
       {/* Category form */}
-      <form onSubmit={handleAddCategory} className="mb-4">
-        <label className="block mb-2">Add New Category</label>
+      <form onSubmit={handleAddCategory} className="mb-6 flex flex-col space-y-4">
+        <label className="text-gray-700 text-lg">Dodaj nowy gatunek</label>
         <input
           type="text"
-          placeholder="Category name"
+          placeholder="Gatunek"
           value={newCategoryName}
           onChange={(e) => setNewCategoryName(e.target.value)}
-          className="border p-2 mb-2 w-1/3"
+          className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           type="submit"
-          className="btn-primary"
+          className="w-full py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={loading}
         >
-          {loading ? "Adding..." : "Add Category"}
+          {loading ? "Dodawanie..." : "Dodaj"}
         </button>
       </form>
 
       {/* List of categories */}
-      <h2 className="mb-4">Existing Categories</h2>
-      <ul>
-        {categories.length > 0 ? (
-          categories.map((category) => (
-            <li key={category._id} className="mb-2">
-              {category.name}
-            </li>
-          ))
-        ) : (
-          <li>No categories available.</li>
-        )}
-      </ul>
+      <h2 className="text-2xl font-medium mb-4 text-center">Istniejace Gatunki</h2>
+<div className="bg-white shadow-lg rounded-lg p-6 mx-auto w-full max-w-2xl">
+  <ul className="space-y-4">
+    {categories.length > 0 ? (
+      categories.map((category) => (
+        <li
+          key={category._id}
+          className="text-lg text-blue-600 hover:text-blue-800 transition-colors duration-300"
+        >
+          {category.name}
+        </li>
+      ))
+    ) : (
+      <li className="text-gray-600">No Gatunki available.</li>
+    )}
+  </ul>
+</div>
+
     </Layout>
   );
 }

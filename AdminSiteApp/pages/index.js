@@ -6,12 +6,8 @@ import Dashboard from '../components/Dashboard';
 export default function Home() {
   const [error, setError] = useState(null);
   
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stan do przechowywania informacji o logowaniu
-  // Funkcja do pobierania danych z kolekcji AdminUser
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   
-   // Wywołanie tylko raz po załadowaniu komponentu
-
-  // Funkcja obsługująca logowanie
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,7 +24,6 @@ export default function Home() {
       const data = await response.json();
 
       if (response.ok) {
-        // Jeśli logowanie jest udane, ustaw stan isLoggedIn na true
         setIsLoggedIn(true); 
       } else {
         setError(data.message || 'Niepoprawny email lub hasło.');

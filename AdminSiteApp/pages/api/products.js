@@ -1,22 +1,23 @@
 import { mongooseConnect } from "../../lib/mongoose";
 import mongoose from "mongoose";
 
-// Define the Product schema
+//Schema
 const ProductSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  author: { type: String, required: true },          // New field
-  language: { type: String, required: true },        // New field
-  isbn: { type: String, required: true },            // New field
+  author: { type: String, required: true },         
+  language: { type: String, required: true },        
+  isbn: { type: String, required: true },            
   publisher: {
-    name: { type: String, required: true },          // New field (publisher name)
-    year: { type: Number, required: true },          // New field (publisher year)
+    name: { type: String, required: true },          
+    year: { type: Number, required: true },          
   },
   description: { type: String, required: true },
   price: { type: Number, required: true },
-  pages: { type: Number, required: true },           // New field (pages)
-  images: [{ type: String }],                        // Array of image URLs
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // Reference to Category collection
-  properties: { type: Object }, // Additional product properties (if needed)
+  pages: { type: Number, required: true },           
+  images: [{ type: String }],                        
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, 
+  properties: { type: Object }, 
+  amount: { type: Number, required: true, default: 0 }, 
 });
 
 const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
@@ -46,8 +47,10 @@ export default async function handle(req, res) {
       pages, 
       images, 
       category, 
-      properties 
+      properties, 
+      amount 
     } = req.body;
+
     try {
       const newProduct = await Product.create({
         title,
@@ -63,7 +66,8 @@ export default async function handle(req, res) {
         pages,
         images,
         category,
-        properties
+        properties,
+        amount, 
       });
       return res.status(201).json(newProduct);
     } catch (error) {
@@ -85,8 +89,10 @@ export default async function handle(req, res) {
       pages, 
       images, 
       category, 
-      properties 
+      properties, 
+      amount 
     } = req.body;
+
     try {
       await Product.updateOne(
         { _id },
@@ -101,7 +107,8 @@ export default async function handle(req, res) {
           pages,
           images,
           category,
-          properties
+          properties,
+          amount, 
         }
       );
       return res.status(200).json({ success: true });

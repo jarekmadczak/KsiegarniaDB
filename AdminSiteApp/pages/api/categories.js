@@ -2,14 +2,13 @@ import { mongooseConnect } from "../../lib/mongoose";
 import Category from "../../lib/category";
 
 export default async function handler(req, res) {
-  await mongooseConnect(); // Ensure you're connected to the MongoDB database
+  await mongooseConnect(); 
 
   const { method } = req;
 
-  // Fetch all categories (GET request)
   if (method === "GET") {
     try {
-      const categories = await Category.find();  // Fetch categories from the database
+      const categories = await Category.find();  
       res.status(200).json(categories);
     } catch (error) {
       console.error(error);
@@ -17,7 +16,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // Create a new category (POST request)
   if (method === "POST") {
     const { name } = req.body;
 
@@ -34,12 +32,11 @@ export default async function handler(req, res) {
     }
   }
 
-  // Delete a category (DELETE request)
   if (method === "DELETE") {
-    const { id } = req.query; // Get category ID from query
+    const { id } = req.query; 
 
     try {
-      await Category.findByIdAndDelete(id);  // Delete the category by ID
+      await Category.findByIdAndDelete(id);  
       res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
