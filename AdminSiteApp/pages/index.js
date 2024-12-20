@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import Nav from '../components/Nav';
-import Layout from '../components/Layout';
-
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [error, setError] = useState(null);
   
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  
+  const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -34,13 +32,10 @@ export default function Home() {
   };
 
   if (isLoggedIn) {
-    return (
+    
+      router.push('/dashboard');
   
-        <Layout>
-          <Dashboard/>
-        </Layout>
-  
-    );
+    
   }
 
   // Formularz logowania (pokazywany tylko jeśli użytkownik nie jest zalogowany)
