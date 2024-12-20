@@ -31,6 +31,25 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to create category" });
     }
   }
+  if (method === "PUT") {
+    const { id, name } = req.body;
+  
+    if (!id || !name) {
+      return res.status(400).json({ error: "Category id and name are required" });
+    }
+  
+    try {
+      const updatedCategory = await Category.findByIdAndUpdate(
+        id,
+        { name },
+        { new: true } // Return the updated category
+      );
+      res.status(200).json(updatedCategory);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to update category" });
+    }
+  }
 
   if (method === "DELETE") {
     const { id } = req.query; 

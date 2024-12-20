@@ -57,7 +57,7 @@ export default function Products() {
 
             {/* Edit Button */}
             <div className="justify-center mt-6">
-              <Link className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2 mt-4 rounded" href={`/products/edit/${product._id}`}>
+              <Link className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2 mt-4 rounded" href={`/products/Edit?id=${product._id}`}>
                 Edytuj
               </Link>
             </div>
