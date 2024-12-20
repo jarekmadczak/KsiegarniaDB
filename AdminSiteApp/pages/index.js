@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
 import Layout from '../components/Layout';
-import Dashboard from '../components/Dashboard';
+
 
 export default function Home() {
   const [error, setError] = useState(null);
