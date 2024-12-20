@@ -9,7 +9,7 @@ export default function SetMainImageForm() {
   const [mainProductTitle, setMainProductTitle] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null); // Selected product
   const [mainImage, setMainImage] = useState(""); // Store the selected main image
-
+  
   // Fetch products data
   useEffect(() => {
     const fetchProducts = async () => {
