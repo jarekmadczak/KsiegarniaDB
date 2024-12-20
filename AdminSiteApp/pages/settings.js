@@ -84,8 +84,6 @@ export default function SetMainImageForm() {
   </div>
 </div>
 
-  
-  
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Product Selection */}
       <div>
