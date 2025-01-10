@@ -16,6 +16,8 @@ const CartPageWrapper = styled.div`
   margin: 10vh auto;
   display: flex;
   gap: 20px;
+  margin-bottom: 30vh
+   
 `;
 
 const OrdersContainer = styled.div`

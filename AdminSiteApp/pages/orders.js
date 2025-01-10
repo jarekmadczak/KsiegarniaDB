@@ -37,7 +37,7 @@ export default function Orders() {
         <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
-              {["Order ID", "Status", "Order Date", "Total Price", "Customer", "Email", "Address", "Products", "Actions"].map((header) => (
+              {[ "Status", "Order Date", "Total Price", "Customer", "Email", "Address", "Products", "Actions"].map((header) => (
                 <th key={header} className="border border-gray-300 px-4 py-2">{header}</th>
               ))}
             </tr>
@@ -45,7 +45,7 @@ export default function Orders() {
           <tbody>
             {orders.map((order) => (
               <tr key={order._id} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">{order._id}</td>
+              
                 <td className="border border-gray-300 px-4 py-2">
                   <select value={order.status} onChange={(e) => handleStatusChange(order._id, e.target.value)} className="border border-gray-300 p-1 rounded">
                     {["pending", "shipped", "delivered"].map(status => (

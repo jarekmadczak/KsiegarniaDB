@@ -172,7 +172,7 @@ export default function ProductPage() {
     // Save updated cart to cookies
     Cookies.set('cart', JSON.stringify(cart));
 
-    alert(`${product.title} has been added to your cart!`);
+    alert(`${product.title} dodano do koszyka!`);
   };
 
   if (loading) {
@@ -210,7 +210,7 @@ export default function ProductPage() {
             </ProductDetails>
           </ProductInfoWrapper>
           <ButtonWrapper>
-          <Button onClick={addToCart}>Add to Cart</Button>
+          <Button onClick={addToCart}>Dodaj do koszyka</Button>
         </ButtonWrapper>
         </ProductDetailsWrapper>
 

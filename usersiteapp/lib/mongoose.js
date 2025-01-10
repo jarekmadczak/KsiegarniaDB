@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // URL połączenia z bazą danych Ksiegarnia
-const MONGO_URL = "mongodb+srv://Administrator:POdzaqD17@ksiegarnia.pezok.mongodb.net/Ksiegarnia?retryWrites=true&w=majority&appName=Ksiegarnia";
+const MONGO_URL = "mongodb+srv://Administrator:Admin@ksiegarnia.pezok.mongodb.net/Ksiegarnia?retryWrites=true&w=majority&appName=Ksiegarnia";
 
 export async function mongooseConnect() {
   // Sprawdzenie, czy już istnieje połączenie

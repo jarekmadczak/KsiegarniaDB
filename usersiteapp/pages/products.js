@@ -92,7 +92,7 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 300]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
 
@@ -149,7 +149,7 @@ export default function Home() {
             <PriceSlider
               type="range"
               min="0"
-              max="1000"
+              max="300"
               step="1"
               value={priceRange[1]}
               onChange={(e) => setPriceRange([0, e.target.value])}
