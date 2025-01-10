@@ -1,23 +1,26 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import NavBar from '../components/Nav';
+import Link from 'next/link';
+import {
+  LoyaltySection, LoyaltyInfo, LoyaltyTitle, LoyaltyDescription, LoyaltyImage,TextTitle,ProuctsTitle,Bg,Title,Desc,MainProductWrapper,
+  ProductImage,ProductInfoWrapper,Button,ProductsGrid,ProductCard,ProductImageCard,ProductInfo,ProductTitle,ProductPrice,ProductDescription,
+  Footer,FooterText,AboutSection,AboutImage,AboutInfo,AboutTitle,AboutDescription,
+} from '../components/Layout'; // Importing the styled components
+
+import Center from '../components/Center';
 
 export default function Home() {
-  const [mainProduct, setMainProduct] = useState(null); // For storing main product
-  const [products, setProducts] = useState([]); // For storing other products
+  const [mainProduct, setMainProduct] = useState(null);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
- 
-  
-
   useEffect(() => {
- 
     const fetchData = async () => {
       try {
-        // Fetch main product (with main image)
         const mainProductResponse = await axios.get('/api/attualmain');
         setMainProduct(mainProductResponse.data.mainProduct);
 
-        // Fetch other products
         const productsResponse = await axios.get('/api/products');
         setProducts(productsResponse.data);
 
@@ -29,65 +32,79 @@ export default function Home() {
     };
 
     fetchData();
-  }, []); // Run this effect once when the component mounts
+  }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <span className="text-xl font-semibold">Loading...</span>
-      </div>
-    ); // Show loading state while fetching data
+    return <div>Loading...</div>;
   }
 
-  return (
-    <div className="container mx-auto p-6">
-      {/* Main Product */}
-      <div className="text-center mb-12">
-        {mainProduct ? (
-          <>
-            <h2 className="text-3xl font-bold mb-4">{mainProduct.product.title}</h2>
-            <img
-              src={mainProduct.mainImage}   // images through the symbolic link 
-              alt={mainProduct.product.title}
-              className="mx-auto w-full max-w-md rounded-lg shadow-lg mb-6"
-            />
-            <p className="text-lg mb-4">{mainProduct.product.description}</p>
-            <p className="text-xl font-semibold text-gray-700">
-              <strong>Price:</strong> ${mainProduct.product.price}
-            </p>
-          </>
-        ) : (
-          <p>Loading main product...</p>
-        )}
-      </div>
+  const limitedProducts = products.slice(0, 6);
 
-      {/* Product List */}
-      <div>
-        <h3 className="text-2xl font-semibold mb-6">Other Products:</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <div
-                key={product._id}
-                className="border rounded-lg shadow-lg p-4 bg-white hover:shadow-xl transition-shadow duration-300"
-              >
-                <img
-                  src={product.images[0]} // images through the symbolic link 
-                  alt={product.title}
-                  className="w-full h-56 object-cover rounded-lg mb-4"
-                />
-                <h4 className="text-xl font-semibold text-gray-800">{product.title}</h4>
-                <p className="text-sm text-gray-600 mb-4">{product.description}</p>
-                <p className="text-lg font-semibold text-gray-700">
-                  <strong>Price:</strong> ${product.price}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p>No products available</p>
+  return (
+    <div>
+      <NavBar />
+      <Bg>
+        <Center>
+          {mainProduct && (
+            <MainProductWrapper>
+              <ProductImage src={mainProduct.mainImage} alt={mainProduct.product.title} />
+              <ProductInfoWrapper>
+                <TextTitle>BestSeller</TextTitle>
+                <Title>{mainProduct.product.title}</Title>
+                <Desc>{mainProduct.product.description}</Desc>
+                <Button as="a" href={`/product?id=${mainProduct.product._id}`}>
+                  See More
+                </Button>
+              </ProductInfoWrapper>
+            </MainProductWrapper>
           )}
-        </div>
-      </div>
+        </Center>
+      </Bg>
+      <Center>
+      <ProuctsTitle>Nasze Produkty</ProuctsTitle>
+      <ProductsGrid>
+        {limitedProducts.map((product) => (
+          <ProductCard key={product._id}>
+            <Link href={`/product?id=${product._id}`} passHref>
+              <ProductImageCard src={product.images[0]} alt={product.title} />
+              <ProductInfo>
+                <ProductTitle>{product.title}</ProductTitle>
+                <ProductDescription>{product.description}</ProductDescription>
+                <ProductPrice>{product.price} pln</ProductPrice>
+              </ProductInfo>
+            </Link>
+          </ProductCard>
+        ))}
+      </ProductsGrid>
+</Center>
+<AboutSection>
+        <AboutImage src="https://bi.im-g.pl/im/ba/7d/1b/z28826298IEG,Ksiegarnia-Tarabuk-w-Zamku-Ujazdowskim.jpg" alt="About Us" />
+        <AboutInfo>
+          <AboutTitle>O Nas</AboutTitle>
+          <AboutDescription>
+            Jesteśmy pasjonatami książek i technologii. E-Biblioteka to miejsce, gdzie możesz
+            znaleźć najnowsze i najlepsze książki w przystępnych cenach. Nasza misja to
+            łączenie miłości do literatury z nowoczesnym podejściem do sprzedaży online. Dzięki
+            intuicyjnej platformie i szerokiemu wyborowi, zakupy w naszej bibliotece to czysta
+            przyjemność.
+          </AboutDescription>
+        </AboutInfo>
+      </AboutSection>
+<LoyaltySection>
+      <LoyaltyInfo>
+        <LoyaltyTitle>Nowość!! Spotkania z autorami</LoyaltyTitle>
+        <LoyaltyDescription>
+        Organizujemy wyjątkowe spotkania z autorami książek, gdzie możesz poznać swoich ulubionych pisarzy osobiście, zadać
+          pytania i zdobyć autografy! Każde spotkanie to niepowtarzalna okazja do rozmowy, inspiracji oraz zakupu książek
+          prosto od autora. Dołącz do nas i bądź częścią tych magicznych chwil! Informacje o wydażeniach mozna znaleźć na naszych socialach
+        </LoyaltyDescription>
+      </LoyaltyInfo>
+      <LoyaltyImage src="https://louharry.com/wp-content/uploads/2024/02/iap-cold.jpg?w=816" alt="Program Lojalnościowy" />
+    </LoyaltySection>
+      <Footer>
+        <FooterText>&copy; 2025 E-Biblioteka. All Rights Reserved.</FooterText>
+
+      </Footer>
     </div>
   );
 }
