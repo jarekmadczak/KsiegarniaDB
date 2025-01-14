@@ -5,13 +5,12 @@ UserSite – the frontend for users, where they can browse products (books), add
 AdminSite – the admin panel where administrators can manage books, categories, users, and orders.
 The application is built using Next.js, React, Node.js, and communicates with a backend API and database. The project provides full functionality for managing a bookstore, from product management to order fulfillment.
 
-
-
-
+I don't know why there's a beer image in the repository, but removing it causes the application to crash.
 
 Running the Application
+
 1. Installing Dependencies
-To run the project, you need to install the dependencies. The project uses Yarn, so make sure you have Yarn installed.
+   To run the project, you need to install the dependencies. The project uses Yarn, so make sure you have Yarn installed.
 
 Step 1: Install Yarn (if not already installed)
 If you don't have Yarn installed, you can install it via npm:
@@ -24,8 +23,7 @@ Navigate to the root directory of the project and run the following command to i
 
 bash
 Skopiuj kod
-yarn install
-2. Running the Application
+yarn install 2. Running the Application
 Once the dependencies are installed, you can run the application.
 
 Step 3: Run the Application in Development Mode
@@ -37,7 +35,7 @@ yarn dev
 The application should be available at http://localhost:3000.
 
 3. Running the Application in Production Mode
-If you want to run the application in production mode, first build the project:
+   If you want to run the application in production mode, first build the project:
 
 bash
 Skopiuj kod
