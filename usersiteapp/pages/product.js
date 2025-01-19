@@ -3,11 +3,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import NavBar from '../components/Nav'; // Komponent Navbar
 import { useRouter } from 'next/router'; // Hook do pobierania params z URL
-import { Footer, FooterText } from '../components/Layout'; // Footer components
-import Cookies from 'js-cookie'; // Importing js-cookie to handle cookies
+import { Footer, FooterText } from '../components/Layout'; // Footer
+import Cookies from 'js-cookie'; 
 
 
-// Styled components for layout
+
 const ProductPageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -173,6 +173,7 @@ export default function ProductPage() {
     Cookies.set('cart', JSON.stringify(cart));
 
     alert(`${product.title} dodano do koszyka!`);
+    window.location.reload();
   };
 
   if (loading) {

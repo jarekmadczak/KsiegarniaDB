@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import BarsIcon from '../components/icons/Bars';
-import Cookies from 'js-cookie'; // For accessing cookies
+import Cookies from 'js-cookie'; // cookies
 
 const StyledHeader = styled.header`
   background-color: #fff;
@@ -75,12 +75,12 @@ const CartLinkWrapper = styled.div`
 
 const CartCount = styled.span`
   position: absolute;
-  top: -8px;
-  right: -12px;
+  top: -12px;
+  right: -18px;
   background-color: #0070f3;
   color: white;
   font-size: 0.8rem;
-  padding: 3px 4px;
+  padding: 3px 9px;
   border-radius: 50%;
 `;
 
@@ -101,15 +101,24 @@ const NavButton = styled.button`
 export default function NavBar() {
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Get cart data from cookies
     const cartData = Cookies.get('cart');
     if (cartData) {
-      const cartItems = JSON.parse(cartData); // Parse cart data from cookie
-      setCartItemCount(cartItems.length); // Set the number of items in the cart
+      const cartItems = JSON.parse(cartData);
+      setCartItemCount(cartItems.length);
     }
-  }, []); // Run once when the component is mounted
+
+    const userToken =  Cookies.get('token');
+    setIsLoggedIn(!!userToken);
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    setIsLoggedIn(false);
+    window.location.href = '/'; 
+  };
 
   return (
     <StyledHeader>
@@ -119,7 +128,7 @@ export default function NavBar() {
         </Link>
         <StyledNav mobileNavActive={mobileNavActive}>
           <Link href="/" passHref>
-            <NavLink>Głowna</NavLink>
+            <NavLink>Główna</NavLink>
           </Link>
           <Link href="/products" passHref>
             <NavLink>Sklep</NavLink>
@@ -128,8 +137,17 @@ export default function NavBar() {
             <Link href="/cart" passHref>
               <NavLink>Koszyk</NavLink>
             </Link>
-            {<CartCount>{cartItemCount}</CartCount>}
+            {cartItemCount > 0 && <CartCount>{cartItemCount}</CartCount>}
           </CartLinkWrapper>
+          {isLoggedIn ? (
+            <NavLink as="button" onClick={handleLogout}>
+              Wyloguj się
+            </NavLink>
+          ) : (
+            <Link href="/login" passHref>
+              <NavLink>Zaloguj się</NavLink>
+            </Link>
+          )}
         </StyledNav>
         <NavButton onClick={() => setMobileNavActive((prev) => !prev)}>
           <BarsIcon />
