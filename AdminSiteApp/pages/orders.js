@@ -54,14 +54,14 @@ export default function Orders() {
                   </select>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">{order.createdAt.slice(0, 10)}</td>
-                <td className="border border-gray-300 px-4 py-2">${order.totalPrice}</td>
+                <td className="border border-gray-300 px-4 py-2">{order.totalPrice}Pln</td>
                 <td className="border border-gray-300 px-4 py-2">{order.customer.name}</td>
                 <td className="border border-gray-300 px-4 py-2">{order.customer.email}</td>
                 <td className="border border-gray-300 px-4 py-2">{order.customer.address}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   {order.products.map((item) => (
                     item.product && item.product.title ? (
-                      <p key={item.product._id}>{item.product.title} - {item.quantity} x ${item.product.price}</p>
+                      <p key={item.product._id}>{item.product.title} - {item.quantity} x {item.product.price}zł</p>
                     ) : (
                       <p key={item._id}>Product information missing</p>
                     )

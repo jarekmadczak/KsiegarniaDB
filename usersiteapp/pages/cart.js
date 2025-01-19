@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie"; // For accessing and clearing cookies
+import Cookies from "js-cookie"; // cookies
 import NavBar from "../components/Nav";
-import {
-  Footer,FooterText
-} from '../components/Layout';
-// Styled components for styling the cart
+import { Footer, FooterText } from "../components/Layout";
+// Style
 import styled from "styled-components";
 
 const CartPageWrapper = styled.div`
@@ -16,8 +14,7 @@ const CartPageWrapper = styled.div`
   margin: 10vh auto;
   display: flex;
   gap: 20px;
-  margin-bottom: 30vh
-   
+  margin-bottom: 30vh;
 `;
 
 const OrdersContainer = styled.div`
@@ -117,37 +114,86 @@ const Button = styled.button`
   }
 `;
 
+const TotalPrice = styled.div`
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+`;
+
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [customer, setCustomer] = useState({ name: "", email: "", address: "" });
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
+    const token = Cookies.get("token");
+
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/api/auth", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send the token with the request
+          },
+        });
+        if (response.status === 200) {
+          // Combine firstName and surname into the name field
+          setCustomer({
+            name: response.data.firstName,
+            email: response.data.email,
+            address: response.data.lastName, // Corrected address field
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (token) {
+      fetchUserData();
+    }
+
     const cartData = Cookies.get("cart");
     if (cartData) {
-      setCartItems(JSON.parse(cartData));
+      const parsedCart = JSON.parse(cartData);
+      setCartItems(parsedCart);
+      calculateTotal(parsedCart);
     }
-  }, []);
+  }, [router]);
+
+  const calculateTotal = (cartItems) => {
+    const totalCost = cartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    setTotal(totalCost);
+  };
 
   const handleQuantityChange = (index, action) => {
     const updatedCart = cartItems.map((item, idx) => {
       if (idx === index) {
         return {
           ...item,
-          quantity: action === "increase" ? item.quantity + 1 : Math.max(1, item.quantity - 1),
+          quantity:
+            action === "increase"
+              ? item.quantity + 1
+              : Math.max(1, item.quantity - 1),
         };
       }
       return item;
     });
     setCartItems(updatedCart);
-    Cookies.set("cart", JSON.stringify(updatedCart)); // Update the cart in cookies
+    calculateTotal(updatedCart);
+    Cookies.set("cart", JSON.stringify(updatedCart));
   };
 
   const handleDelete = (index) => {
     const updatedCart = cartItems.filter((_, idx) => idx !== index);
     setCartItems(updatedCart);
-    Cookies.set("cart", JSON.stringify(updatedCart)); // Update the cart in cookies
+    calculateTotal(updatedCart);
+    Cookies.set("cart", JSON.stringify(updatedCart));
   };
 
   const handleSubmit = async (e) => {
@@ -158,14 +204,14 @@ export default function CartPage() {
       const response = await axios.post("/api/orders", {
         customer,
         products: cartItems.map((item) => ({
-          product: item.productId,
+          product: item.productId, // Ensure 'productId' is the correct field
           quantity: item.quantity,
         })),
       });
 
       if (response.status === 201) {
         Cookies.remove("cart");
-        router.push("/"); // Redirect to homepage after submission
+        router.push("/");
       }
     } catch (error) {
       console.error("Error submitting the order:", error);
@@ -181,64 +227,64 @@ export default function CartPage() {
       <CartPageWrapper>
         {/* Left: Orders */}
         <OrdersContainer>
-          <CartHeader>Shopping Cart</CartHeader>
+          <CartHeader>Koszyk</CartHeader>
           {cartItems.length === 0 ? (
-            <p>Your cart is empty. Please add items to your cart.</p>
+            <p>Dodaj coś do koszyka. Aktualnie jest pusty.</p>
           ) : (
             cartItems.map((item, index) => (
               <CartItem key={index}>
                 <CartInfo>
                   <strong>{item.title}</strong>
-                  <p>Price: ${item.price}</p>
+                  <p>Cena: {item.price}zł</p>
                   <QuantityControl>
                     <button onClick={() => handleQuantityChange(index, "decrease")}>-</button>
                     <span>{item.quantity}</span>
                     <button onClick={() => handleQuantityChange(index, "increase")}>+</button>
                   </QuantityControl>
                 </CartInfo>
-                <DeleteButton onClick={() => handleDelete(index)}>Delete</DeleteButton>
+                <DeleteButton onClick={() => handleDelete(index)}>Usuń</DeleteButton>
               </CartItem>
             ))
           )}
+          <TotalPrice>Całosc: {total}zł</TotalPrice>
         </OrdersContainer>
 
         {/* Right: Form */}
         <FormContainer>
-          <CartHeader>Order Details</CartHeader>
+          <CartHeader>Zamówienie:</CartHeader>
           <form onSubmit={handleSubmit}>
             <div>
               <InputField
                 type="text"
-                placeholder="Your Name"
+                placeholder="Imię i nazwisko"
                 value={customer.name}
                 onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
                 required
               />
               <InputField
                 type="email"
-                placeholder="Your Email"
+                placeholder="Email"
                 value={customer.email}
                 onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
                 required
               />
               <InputField
                 type="text"
-                placeholder="Shipping Address"
+                placeholder="Adres"
                 value={customer.address}
                 onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
                 required
               />
             </div>
             <Button type="submit" disabled={loading}>
-              {loading ? "Submitting..." : "Submit Order"}
+              {loading ? "Submitting..." : "Zamów"}
             </Button>
           </form>
         </FormContainer>
       </CartPageWrapper>
-          <Footer>
-                    <FooterText>&copy; 2025 E-Biblioteka. All Rights Reserved.</FooterText>
-
-          </Footer>
+      <Footer>
+        <FooterText>&copy; 2025 E-Biblioteka. All Rights Reserved.</FooterText>
+      </Footer>
     </div>
   );
 }

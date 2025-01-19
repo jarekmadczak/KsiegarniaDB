@@ -6,7 +6,7 @@ import NavBar from '../components/Nav';
 import {
     Footer,FooterText
   } from '../components/Layout';
-// Styled components for layout and search
+
 const PageWrapper = styled.div`
   display: flex;
   margin-top: 10vh;
@@ -116,7 +116,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Filter products based on the search query, price range, and category
+  // Filter 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
@@ -145,7 +145,7 @@ export default function Home() {
           
           {/* Price Range Filter */}
           <FilterWrapper>
-            <PriceRangeLabel>cena: {priceRange[0]} - ${priceRange[1]} pln</PriceRangeLabel>
+            <PriceRangeLabel>cena: {priceRange[0]} - {priceRange[1]} pln</PriceRangeLabel>
             <PriceSlider
               type="range"
               min="0"

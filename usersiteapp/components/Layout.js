@@ -263,7 +263,6 @@ const ButtonWrapper = styled.div`
 
 
 
-// Background Section
 export const Bg = styled.div`
   background-color: #f9f9f9;
   color: #333;
@@ -271,7 +270,6 @@ export const Bg = styled.div`
   text-align: center;
 `;
 
-// Title and Description Section
 export const TextTitle = styled.h1`
   font-size: 3.5rem;
   font-weight: 600;
@@ -294,7 +292,6 @@ export const Desc = styled.p`
   font-family: 'Roboto', sans-serif;
 `;
 
-// Main Product Wrapper
 export const MainProductWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -353,24 +350,24 @@ export const Button = styled.button`
   }
 `;
 
-// Products Grid Section
+
 export const ProductsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(1, 1fr); // For smaller screens, only 1 column
-  gap: 5px;  // Small gap between items
+  grid-template-columns: repeat(1, 1fr);
+  gap: 5px; 
 
   @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);  // 2 columns on medium screens
-    gap: 5px;  // Small gap between items
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 5px; 
   }
 
   @media screen and (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);  // 4 columns on larger screens
-    gap: 5px;  // Small gap between items
+    grid-template-columns: repeat(3, 1fr);  
+    gap: 5px;  
   }
 `;
 
-// Product Card
+
 export const ProductCard = styled.div`
   background-color: white;
   border-radius: 10px;
@@ -378,7 +375,7 @@ export const ProductCard = styled.div`
   transition: transform 0.3s ease;
   overflow: hidden;
   padding: 8px;
-  width: 100%;  // Make sure product card takes full width in grid cells
+  width: 100%;  
 
   &:hover {
     transform: translateY(-10px);
@@ -386,7 +383,6 @@ export const ProductCard = styled.div`
   }
 `;
 
-// Keep the same as before for other components, just ensuring that gaps are smaller.
 
 
 
@@ -419,7 +415,7 @@ export const ProductDescription = styled.p`
   font-size: 0.9rem;
 `;
 
-// Footer Section
+
 export const Footer = styled.footer`
   background-color: #222;
   color: #fff;
@@ -442,7 +438,7 @@ export const FooterLink = styled.a`
   }
 `;
 
-// About Section
+
 export const AboutSection = styled.section`
   display: flex;
   align-items: center;
